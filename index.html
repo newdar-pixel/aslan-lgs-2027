@@ -3,162 +3,635 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+
 <title>Aslan LGS</title>
+
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4F46E5">
+
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Aslan LGS">
 <link rel="apple-touch-icon" href="icon-192.png">
+
 <style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;padding:0;height:100%;overflow:hidden;font-family:-apple-system,"Segoe UI",system-ui,sans-serif}
-body{display:flex;flex-direction:column;background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF4FF 100%)}
-header{background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);color:white;padding:16px 20px;padding-top:max(16px,env(safe-area-inset-top));box-shadow:0 4px 20px rgba(79,70,229,.25);position:relative;z-index:10}
-.header-content{display:flex;align-items:center;gap:12px}
-.avatar{width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;border:2px solid rgba(255,255,255,.4)}
-.header-text{flex:1}
-.header-title{font-size:17px;font-weight:700}
-.header-subtitle{font-size:12px;opacity:.85;margin-top:2px}
-#chat{flex:1;overflow-y:auto;padding:20px 16px 8px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth}
-#chat::-webkit-scrollbar{width:0}
-.msg{max-width:82%;padding:12px 16px;border-radius:18px;line-height:1.55;font-size:15px;word-wrap:break-word;animation:pop .35s cubic-bezier(.34,1.56,.64,1)}
-@keyframes pop{0%{opacity:0;transform:translateY(8px) scale(.96)}100%{opacity:1;transform:translateY(0) scale(1)}}
-.user{align-self:flex-end;background:linear-gradient(135deg,#4F46E5 0%,#6366F1 100%);color:white;border-bottom-right-radius:6px;box-shadow:0 2px 8px rgba(79,70,229,.3)}
-.tutor{align-self:flex-start;background:white;color:#1E293B;border-bottom-left-radius:6px;box-shadow:0 2px 12px rgba(15,23,42,.06);border:1px solid rgba(226,232,240,.8)}
-.typing{display:flex;gap:4px;padding:4px 0}
-.typing span{width:8px;height:8px;border-radius:50%;background:#94A3B8;animation:bounce 1.4s infinite ease-in-out}
-.typing span:nth-child(1){animation-delay:-.32s}
-.typing span:nth-child(2){animation-delay:-.16s}
-@keyframes bounce{0%,80%,100%{transform:scale(.6);opacity:.5}40%{transform:scale(1);opacity:1}}
-#bar{display:flex;padding:12px 14px;padding-bottom:max(12px,env(safe-area-inset-bottom));background:rgba(255,255,255,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(226,232,240,.6);gap:10px;align-items:center}
-#in{flex:1;padding:13px 18px;border:1.5px solid #E2E8F0;border-radius:24px;font-size:16px;outline:none;background:white;color:#1E293B;font-family:inherit}
-#in:focus{border-color:#4F46E5;box-shadow:0 0 0 3px rgba(79,70,229,.12)}
-#sb{width:48px;height:48px;padding:0;background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);color:white;border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(79,70,229,.35);flex-shrink:0}
-#sb:active{transform:scale(.92)}
-#sb:disabled{opacity:.5}
-#sb svg{width:22px;height:22px}
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  overflow:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+}
+
+body{
+  display:flex;
+  flex-direction:column;
+  background:linear-gradient(
+    135deg,
+    #EEF2FF 0%,
+    #F5F3FF 50%,
+    #FDF4FF 100%
+  );
+}
+
+header{
+  background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);
+  color:white;
+  padding:16px 20px;
+  padding-top:max(16px,env(safe-area-inset-top));
+  box-shadow:0 4px 20px rgba(79,70,229,.25);
+  position:relative;
+  z-index:10;
+}
+
+.header-content{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.avatar{
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:rgba(255,255,255,.2);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  font-weight:700;
+  border:2px solid rgba(255,255,255,.4);
+}
+
+.header-text{
+  flex:1;
+}
+
+.header-title{
+  font-size:17px;
+  font-weight:700;
+}
+
+.header-subtitle{
+  font-size:12px;
+  opacity:.85;
+  margin-top:2px;
+}
+
+#chat{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 16px 8px;
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  scroll-behavior:smooth;
+}
+
+#chat::-webkit-scrollbar{
+  width:0;
+}
+
+.msg{
+  max-width:86%;
+  padding:12px 16px;
+  border-radius:18px;
+  line-height:1.55;
+  font-size:15px;
+  word-wrap:break-word;
+  white-space:normal;
+  animation:pop .35s cubic-bezier(.34,1.56,.64,1);
+}
+
+.msg strong{
+  font-weight:700;
+}
+
+.msg em{
+  font-style:italic;
+}
+
+.math{
+  font-family:Georgia,"Times New Roman",serif;
+  font-style:italic;
+}
+
+.separator{
+  display:block;
+  height:1px;
+  background:#E2E8F0;
+  margin:10px 0;
+}
+
+@keyframes pop{
+  0%{
+    opacity:0;
+    transform:translateY(8px) scale(.96);
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.user{
+  align-self:flex-end;
+  background:linear-gradient(135deg,#4F46E5 0%,#6366F1 100%);
+  color:white;
+  border-bottom-right-radius:6px;
+  box-shadow:0 2px 8px rgba(79,70,229,.3);
+}
+
+.tutor{
+  align-self:flex-start;
+  background:white;
+  color:#1E293B;
+  border-bottom-left-radius:6px;
+  box-shadow:0 2px 12px rgba(15,23,42,.06);
+  border:1px solid rgba(226,232,240,.8);
+}
+
+.typing{
+  display:flex;
+  gap:4px;
+  padding:4px 0;
+}
+
+.typing span{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#94A3B8;
+  animation:bounce 1.4s infinite ease-in-out;
+}
+
+.typing span:nth-child(1){
+  animation-delay:-.32s;
+}
+
+.typing span:nth-child(2){
+  animation-delay:-.16s;
+}
+
+@keyframes bounce{
+  0%,80%,100%{
+    transform:scale(.6);
+    opacity:.5;
+  }
+  40%{
+    transform:scale(1);
+    opacity:1;
+  }
+}
+
+#bar{
+  display:flex;
+  padding:12px 14px;
+  padding-bottom:max(12px,env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-top:1px solid rgba(226,232,240,.6);
+  gap:10px;
+  align-items:center;
+}
+
+#in{
+  flex:1;
+  padding:13px 18px;
+  border:1.5px solid #E2E8F0;
+  border-radius:24px;
+  font-size:16px;
+  outline:none;
+  background:white;
+  color:#1E293B;
+  font-family:inherit;
+}
+
+#in:focus{
+  border-color:#4F46E5;
+  box-shadow:0 0 0 3px rgba(79,70,229,.12);
+}
+
+#sb{
+  width:48px;
+  height:48px;
+  padding:0;
+  background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);
+  color:white;
+  border:none;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 12px rgba(79,70,229,.35);
+  flex-shrink:0;
+}
+
+#sb:active{
+  transform:scale(.92);
+}
+
+#sb:disabled{
+  opacity:.5;
+}
+
+#sb svg{
+  width:22px;
+  height:22px;
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<div class="header-content">
-<div class="avatar">A</div>
-<div class="header-text">
-<div class="header-title">Aslan LGS</div>
-<div class="header-subtitle">2027 hazırlık • çevrimiçi</div>
-</div>
-</div>
+  <div class="header-content">
+    <div class="avatar">A</div>
+
+    <div class="header-text">
+      <div class="header-title">Aslan LGS</div>
+      <div class="header-subtitle">
+        2027 hazırlık • çevrimiçi
+      </div>
+    </div>
+  </div>
 </header>
 
 <div id="chat"></div>
 
 <div id="bar">
-<input id="in" placeholder="Cevabını yaz..." autocomplete="off" autocorrect="off">
-<button id="sb" aria-label="Gönder">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-<line x1="22" y1="2" x2="11" y2="13"></line>
-<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-</svg>
-</button>
+
+  <input
+    id="in"
+    placeholder="Cevabını yaz..."
+    autocomplete="off"
+    autocorrect="off"
+  >
+
+  <button id="sb" aria-label="Gönder">
+
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <line x1="22" y1="2" x2="11" y2="13"></line>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+
+  </button>
+
 </div>
 
 <script>
-const SID="3024051c-f5ce-47d6-bdf5-12dc2ea79f8c";
-const API="https://nstwuvjtsqvyqsftzwke.supabase.co/functions/v1/tutor";
-const SESS=crypto.randomUUID();
-const msgs=[];
-const chat=document.getElementById("chat");
-const inp=document.getElementById("in");
-const sb=document.getElementById("sb");
+
+const SID =
+  "3024051c-f5ce-47d6-bdf5-12dc2ea79f8c";
+
+const API =
+  "https://nstwuvjtsqvyqsftzwke.supabase.co/functions/v1/tutor";
+
+const SESS = crypto.randomUUID();
+
+const msgs = [];
+
+const chat = document.getElementById("chat");
+const inp = document.getElementById("in");
+const sb = document.getElementById("sb");
+
+
+function formatTutorText(text){
+
+  let s = String(text ?? "");
+
+  /*
+    Önce HTML karakterlerini güvenli hale getiriyoruz.
+    Böylece model HTML gönderse bile çalıştırılmaz.
+  */
+
+  s = s
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+
+
+  /*
+    Markdown kalın:
+    **metin**
+  */
+
+  s = s.replace(
+    /\*\*([^*]+)\*\*/g,
+    "<strong>$1</strong>"
+  );
+
+
+  /*
+    Markdown italik:
+    *metin*
+  */
+
+  s = s.replace(
+    /(^|[^\*])\*([^*\n]+)\*(?!\*)/g,
+    "$1<em>$2</em>"
+  );
+
+
+  /*
+    Basit matematik:
+    $x$ → x
+    $4x+15$ → 4x+15
+  */
+
+  s = s.replace(
+    /\$([^$\n]+)\$/g,
+    '<span class="math">$1</span>'
+  );
+
+
+  /*
+    Markdown yatay çizgi:
+    ---
+  */
+
+  s = s.replace(
+    /(^|\n)\s*---\s*(?=\n|$)/g,
+    '$1<span class="separator"></span>'
+  );
+
+
+  /*
+    Satır sonları
+  */
+
+  s = s.replace(/\n/g,"<br>");
+
+  return s;
+}
+
 
 function add(role,text){
- const d=document.createElement("div");
- d.className="msg "+role;
- d.textContent=text;
- chat.appendChild(d);
- chat.scrollTop=chat.scrollHeight;
- return d;
+
+  const d = document.createElement("div");
+
+  d.className = "msg " + role;
+
+  if(role === "tutor"){
+    d.innerHTML = formatTutorText(text);
+  }
+  else{
+    d.textContent = text;
+  }
+
+  chat.appendChild(d);
+
+  chat.scrollTop = chat.scrollHeight;
+
+  return d;
 }
+
 
 function showTyping(){
- const d=document.createElement("div");
- d.className="msg tutor";
- d.id="typing";
- d.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
- chat.appendChild(d);
- chat.scrollTop=chat.scrollHeight;
+
+  const d = document.createElement("div");
+
+  d.className = "msg tutor";
+
+  d.id = "typing";
+
+  d.innerHTML =
+    '<div class="typing">' +
+    '<span></span>' +
+    '<span></span>' +
+    '<span></span>' +
+    '</div>';
+
+  chat.appendChild(d);
+
+  chat.scrollTop = chat.scrollHeight;
 }
+
 
 function hideTyping(){
- const t=document.getElementById("typing");
- if(t)t.remove();
+
+  const t = document.getElementById("typing");
+
+  if(t){
+    t.remove();
+  }
 }
+
 
 async function call(action,payload){
- const r=await fetch(API,{
-  method:"POST",
-  headers:{"Content-Type":"application/json"},
-  body:JSON.stringify({action,payload})
- });
- return await r.json();
+
+  const r = await fetch(API,{
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
+    },
+
+    body:JSON.stringify({
+      action,
+      payload
+    })
+  });
+
+
+  let data;
+
+  try{
+    data = await r.json();
+  }
+  catch{
+    throw new Error(
+      "Sunucudan geçersiz yanıt alındı."
+    );
+  }
+
+
+  if(!r.ok){
+
+    throw new Error(
+      data?.error ||
+      ("Sunucu hatası (" + r.status + ")")
+    );
+  }
+
+  return data;
 }
+
 
 async function go(text){
- if(text){
-  add("user",text);
-  msgs.push({role:"user",parts:[{text}]});
- }
- sb.disabled=true;
- inp.disabled=true;
- showTyping();
- try{
-  const d=await call("tutor",{messages:msgs,student_id:SID,session_id:SESS});
-  hideTyping();
-  const t=d.text||"(boş yanıt)";
-  add("tutor",t);
-  msgs.push({role:"model",parts:[{text:t}]});
- }catch(e){
-  hideTyping();
-  add("tutor","Bağlantı hatası: "+e.message);
- }
- sb.disabled=false;
- inp.disabled=false;
- inp.focus();
+
+  if(text){
+
+    add("user",text);
+
+    msgs.push({
+      role:"user",
+      parts:[
+        {text:text}
+      ]
+    });
+  }
+
+
+  sb.disabled = true;
+  inp.disabled = true;
+
+  showTyping();
+
+
+  try{
+
+    const d = await call(
+      "tutor",
+      {
+        messages:msgs,
+        student_id:SID,
+        session_id:SESS
+      }
+    );
+
+
+    hideTyping();
+
+
+    const t =
+      d.text ||
+      "(boş yanıt)";
+
+
+    add("tutor",t);
+
+
+    msgs.push({
+      role:"model",
+      parts:[
+        {text:t}
+      ]
+    });
+
+  }
+  catch(e){
+
+    hideTyping();
+
+    add(
+      "tutor",
+      "Bağlantı hatası: " + e.message
+    );
+  }
+
+
+  sb.disabled = false;
+  inp.disabled = false;
+
+  inp.focus();
 }
+
 
 async function start(){
- showTyping();
- try{
-  const d=await call("next_task",{student_id:SID});
-  hideTyping();
-  const prompt=d.task
-   ?"Bugünkü görev: "+d.task.skill_name+" ("+d.task.skill_id+"). Öğrenciye bu beceriyi çalıştır, soru sor, cevabını bekle."
-   :"Bugün yeni görev yok, tekrar yapalım.";
-  msgs.push({role:"user",parts:[{text:prompt}]});
-  await go(null);
- }catch(e){
-  hideTyping();
-  add("tutor","Başlangıç hatası: "+e.message);
- }
+
+  showTyping();
+
+
+  try{
+
+    const d = await call(
+      "next_task",
+      {
+        student_id:SID
+      }
+    );
+
+
+    hideTyping();
+
+
+    const prompt = d.task
+
+      ? "Bugünkü görev: " +
+        d.task.skill_name +
+        " (" +
+        d.task.skill_id +
+        "). Öğrenciye bu beceriyi çalıştır, soru sor, cevabını bekle."
+
+      : "Bugün yeni görev yok, tekrar yapalım.";
+
+
+    msgs.push({
+      role:"user",
+      parts:[
+        {text:prompt}
+      ]
+    });
+
+
+    await go(null);
+
+  }
+  catch(e){
+
+    hideTyping();
+
+    add(
+      "tutor",
+      "Başlangıç hatası: " + e.message
+    );
+  }
 }
 
-sb.onclick=()=>{
- const t=inp.value.trim();
- if(!t)return;
- inp.value="";
- go(t);
+
+sb.onclick = () => {
+
+  const t = inp.value.trim();
+
+  if(!t){
+    return;
+  }
+
+  inp.value = "";
+
+  go(t);
 };
 
-inp.addEventListener("keydown",e=>{
- if(e.key==="Enter")sb.click();
-});
+
+inp.addEventListener(
+  "keydown",
+  e => {
+
+    if(e.key === "Enter"){
+      sb.click();
+    }
+
+  }
+);
+
 
 if("serviceWorker" in navigator){
- navigator.serviceWorker.register("sw.js").catch(()=>{});
+
+  navigator.serviceWorker
+    .register("sw.js")
+    .catch(()=>{});
+
 }
 
+
 start();
+
 </script>
+
 </body>
 </html>
