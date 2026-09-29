@@ -2,19 +2,31 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 
 <title>Aslan LGS 2027</title>
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4F46E5">
-
+<meta name="theme-color" content="#FBF5E9">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Aslan LGS">
 <link rel="apple-touch-icon" href="icon-192.png">
 
 <style>
+:root{
+  --bg:#FBF5E9;
+  --ink:#15110D;
+  --muted:#7B7062;
+  --line:#DDD2BF;
+  --green:#0B8B61;
+  --orange:#C84D0A;
+  --red:#C91D25;
+  --blue:#3264D7;
+  --purple:#7957D5;
+}
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
@@ -22,474 +34,704 @@
 
 html,body{
   margin:0;
-  padding:0;
-  height:100%;
-  overflow:hidden;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  min-height:100%;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 }
 
 body{
+  padding:
+    max(22px,env(safe-area-inset-top))
+    0
+    max(28px,env(safe-area-inset-bottom));
+}
+
+button,input{
+  font:inherit;
+}
+
+.hidden{
+  display:none!important;
+}
+
+#dashboard{
+  width:100%;
+  max-width:760px;
+  margin:auto;
+  padding:20px 22px 50px;
+}
+
+.top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  padding:14px 0 28px;
+}
+
+.logo{
+  font-size:38px;
+  line-height:.92;
+  letter-spacing:-1.8px;
+  font-weight:950;
+}
+
+.date{
+  margin-top:18px;
+  font-size:14px;
+  letter-spacing:2px;
+  color:var(--muted);
+  font-weight:800;
+}
+
+.live{
+  border:3px solid var(--ink);
+  border-radius:17px;
+  padding:10px 14px;
+  white-space:nowrap;
+  font-size:14px;
+  font-weight:800;
+}
+
+.live-dot{
+  width:10px;
+  height:10px;
+  display:inline-block;
+  border-radius:50%;
+  background:var(--green);
+  margin-right:7px;
+}
+
+.rule{
+  height:5px;
+  border-radius:5px;
+  background:var(--ink);
+  margin:5px 0 28px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  margin:27px 0 15px;
+}
+
+.section-title{
+  font-size:15px;
+  font-weight:950;
+  letter-spacing:3px;
+  color:#675E53;
+  text-transform:uppercase;
+}
+
+.section-side{
+  color:#6F6559;
+  font-size:14px;
+  font-weight:700;
+}
+
+.today-summary{
+  display:flex;
+  align-items:flex-end;
+  gap:14px;
+  margin-bottom:8px;
+}
+
+.big-time{
+  font-size:58px;
+  line-height:.9;
+  font-weight:950;
+  letter-spacing:-4px;
+}
+
+.big-label{
+  font-size:24px;
+  font-weight:950;
+  padding-bottom:4px;
+}
+
+.today-meta{
+  color:#6F6559;
+  font-size:15px;
+  font-weight:650;
+  margin:14px 0 20px;
+}
+
+.lesson-card{
+  border-radius:25px;
+  padding:23px 20px;
+  margin:15px 0;
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.lesson-card.math{background:#2866D9}
+.lesson-card.turkish{background:#E23822}
+.lesson-card.science{background:#098866}
+.lesson-card.history{background:#6B4CC5}
+.lesson-card.religion{background:#C45B08}
+.lesson-card.english{background:#C55B08}
+
+.lesson-subject{
+  font-size:23px;
+  font-weight:950;
+  margin-bottom:13px;
+}
+
+.lesson-target{
+  font-size:15px;
+  line-height:1.45;
+  opacity:.96;
+  padding-right:4px;
+}
+
+.lesson-type{
+  margin-top:11px;
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:1px;
+  opacity:.88;
+  text-transform:uppercase;
+}
+
+.start{
+  width:100%;
+  margin-top:18px;
+  border:2px solid rgba(255,255,255,.82);
+  background:rgba(255,255,255,.12);
+  color:white;
+  border-radius:14px;
+  padding:13px 15px;
+  font-weight:950;
+  letter-spacing:.5px;
+}
+
+.start:active{
+  transform:scale(.98);
+}
+
+.week{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:7px;
+  margin:8px 0 28px;
+}
+
+.day{
+  min-width:0;
+  border-radius:18px;
+  background:#F2E8D5;
+  text-align:center;
+  padding:12px 2px 10px;
+}
+
+.day.today{
+  background:var(--ink);
+  color:white;
+}
+
+.day-name{
+  font-size:11px;
+  color:#807568;
+}
+
+.day.today .day-name{
+  color:#E9DFCF;
+}
+
+.day-num{
+  font-size:21px;
+  font-weight:950;
+  margin-top:3px;
+}
+
+.dots{
+  min-height:15px;
+  margin-top:6px;
+  display:flex;
+  gap:3px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+}
+
+.dot.math{background:#3264D7}
+.dot.turkish{background:#E23822}
+.dot.science{background:#098866}
+.dot.history{background:#7957D5}
+.dot.religion{background:#D08A37}
+.dot.english{background:#C55B08}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.stat{
+  border:4px solid var(--ink);
+  border-radius:24px;
+  padding:20px 17px;
+  min-height:160px;
+}
+
+.stat.orange{border-color:var(--orange)}
+.stat.red{border-color:var(--red)}
+.stat.green{border-color:var(--green)}
+
+.stat-label{
+  color:#807568;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.stat-number{
+  font-size:45px;
+  line-height:1;
+  font-weight:950;
+  margin:16px 0 7px;
+}
+
+.stat-desc{
+  color:#6F6559;
+  font-size:13px;
+  line-height:1.4;
+  font-weight:650;
+}
+
+.progress{
+  height:8px;
+  border:3px solid var(--ink);
+  border-radius:20px;
+  margin:13px 0 10px;
+  overflow:hidden;
+}
+
+.progress > div{
+  height:100%;
+  background:var(--ink);
+}
+
+.priority{
+  display:grid;
+  grid-template-columns:48px 1fr;
+  gap:10px;
+  padding:18px 0;
+  border-bottom:3px solid var(--line);
+}
+
+.priority-num{
+  font-size:28px;
+  font-weight:950;
+  color:var(--green);
+}
+
+.priority:nth-child(3n) .priority-num{
+  color:#D43B20;
+}
+
+.priority-name{
+  font-size:17px;
+  line-height:1.35;
+  font-weight:900;
+}
+
+.priority-note{
+  color:#776C60;
+  line-height:1.45;
+  margin-top:6px;
+  font-size:14px;
+}
+
+.priority-subject{
+  color:#8C8173;
+  margin-top:8px;
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:1px;
+  text-transform:uppercase;
+}
+
+.empty{
+  border:3px solid var(--ink);
+  border-radius:20px;
+  padding:20px;
+  color:#776C60;
+  line-height:1.5;
+}
+
+.footer{
+  margin-top:40px;
+  border-top:5px solid var(--ink);
+  padding:28px 0;
+  text-align:center;
+  color:#958A7D;
+  letter-spacing:1.5px;
+  font-weight:750;
+  font-size:13px;
+}
+
+/* DERS EKRANI */
+
+#lessonView{
+  height:100dvh;
   display:flex;
   flex-direction:column;
-  background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF4FF 100%);
-  color:#1E293B;
+  background:linear-gradient(135deg,#EEF2FF,#F8F4FF);
 }
 
-header{
-  background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);
+.lesson-header{
+  background:linear-gradient(135deg,#4F46E5,#7C3AED);
   color:white;
-  padding:16px 18px;
-  padding-top:max(16px,env(safe-area-inset-top));
-  box-shadow:0 4px 20px rgba(79,70,229,.25);
-  position:relative;
-  z-index:10;
-}
-
-.header-content{
+  padding:
+    max(14px,env(safe-area-inset-top))
+    15px 14px;
   display:flex;
   align-items:center;
   gap:12px;
 }
 
-.avatar{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  background:rgba(255,255,255,.2);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:22px;
-  font-weight:800;
-  border:2px solid rgba(255,255,255,.4);
-}
-
-.header-text{flex:1}
-
-.header-title{
-  font-size:17px;
+.back{
+  border:0;
+  background:rgba(255,255,255,.18);
+  color:white;
+  padding:9px 11px;
+  border-radius:11px;
   font-weight:800;
 }
 
-.header-subtitle{
-  font-size:12px;
+.lesson-head-text{
+  flex:1;
+}
+
+.lesson-head-title{
+  font-size:16px;
+  font-weight:900;
+}
+
+.lesson-head-sub{
+  font-size:11px;
   opacity:.85;
   margin-top:2px;
 }
 
-.back-btn{
-  border:0;
-  background:rgba(255,255,255,.18);
-  color:white;
-  border-radius:10px;
-  padding:9px 11px;
-  font-weight:700;
-  font-family:inherit;
-}
-
-/* HAFTALIK PROGRAM */
-
-#home{
-  flex:1;
-  overflow-y:auto;
-  padding:20px 14px 34px;
-  -webkit-overflow-scrolling:touch;
-}
-
-.week-title{
-  font-size:23px;
-  font-weight:850;
-  color:#1E293B;
-  margin:0 4px 4px;
-}
-
-.week-sub{
-  font-size:13px;
-  color:#64748B;
-  margin:0 4px 20px;
-}
-
-.day{
-  margin-bottom:22px;
-}
-
-.day-title{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin:0 4px 9px;
-}
-
-.day-title h3{
-  margin:0;
-  font-size:15px;
-  font-weight:800;
-  color:#334155;
-}
-
-.today-badge{
-  background:#E0E7FF;
-  color:#4338CA;
-  padding:3px 8px;
-  border-radius:20px;
-  font-size:10px;
-  font-weight:800;
-}
-
-.lesson{
-  background:white;
-  border:1px solid rgba(226,232,240,.9);
-  border-radius:18px;
-  padding:15px;
-  margin:9px 0;
-  box-shadow:0 3px 14px rgba(15,23,42,.06);
-  display:flex;
-  align-items:center;
-  gap:12px;
-}
-
-.lesson.done{
-  opacity:.58;
-}
-
-.lesson-main{
-  flex:1;
-  min-width:0;
-}
-
-.lesson-subject{
-  font-size:11px;
-  font-weight:850;
-  color:#4F46E5;
-  text-transform:uppercase;
-  letter-spacing:.4px;
-}
-
-.lesson-name{
-  font-size:15px;
-  line-height:1.3;
-  font-weight:800;
-  color:#1E293B;
-  margin-top:4px;
-}
-
-.lesson-type{
-  display:inline-block;
-  font-size:11px;
-  color:#64748B;
-  background:#F1F5F9;
-  padding:4px 7px;
-  border-radius:8px;
-  margin-top:7px;
-}
-
-.start-btn{
-  flex-shrink:0;
-  border:0;
-  border-radius:12px;
-  padding:11px 12px;
-  background:linear-gradient(135deg,#4F46E5,#7C3AED);
-  color:white;
-  font-weight:800;
-  font-size:12px;
-  font-family:inherit;
-  box-shadow:0 3px 9px rgba(79,70,229,.24);
-}
-
-.start-btn:active{
-  transform:scale(.96);
-}
-
-.start-btn:disabled{
-  background:#94A3B8;
-  box-shadow:none;
-}
-
-/* DERS / SOHBET */
-
 #chat{
   flex:1;
   overflow-y:auto;
-  padding:20px 16px 8px;
+  padding:18px 15px 10px;
   display:flex;
   flex-direction:column;
-  gap:14px;
-  scroll-behavior:smooth;
-  -webkit-overflow-scrolling:touch;
-}
-
-#chat::-webkit-scrollbar,
-#home::-webkit-scrollbar{
-  width:0;
+  gap:13px;
 }
 
 .msg{
-  max-width:86%;
-  padding:12px 16px;
+  max-width:87%;
   border-radius:18px;
-  line-height:1.55;
+  padding:12px 15px;
+  line-height:1.5;
   font-size:15px;
-  word-wrap:break-word;
-  animation:pop .25s ease;
 }
 
-@keyframes pop{
-  from{
-    opacity:0;
-    transform:translateY(6px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-.user{
+.msg.user{
   align-self:flex-end;
-  background:linear-gradient(135deg,#4F46E5,#6366F1);
+  background:#4F46E5;
   color:white;
-  border-bottom-right-radius:6px;
-  box-shadow:0 2px 8px rgba(79,70,229,.3);
+  border-bottom-right-radius:5px;
 }
 
-.tutor{
+.msg.tutor{
   align-self:flex-start;
   background:white;
-  color:#1E293B;
-  border-bottom-left-radius:6px;
-  box-shadow:0 2px 12px rgba(15,23,42,.06);
-  border:1px solid rgba(226,232,240,.8);
-}
-
-.msg strong{font-weight:800}
-.msg em{font-style:italic}
-
-.math{
-  font-family:Georgia,"Times New Roman",serif;
-  font-style:italic;
-}
-
-.separator{
-  display:block;
-  height:1px;
-  background:#E2E8F0;
-  margin:10px 0;
-}
-
-.typing{
-  display:flex;
-  gap:4px;
-  padding:4px 0;
-}
-
-.typing span{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#94A3B8;
-  animation:bounce 1.4s infinite ease-in-out;
-}
-
-.typing span:nth-child(1){animation-delay:-.32s}
-.typing span:nth-child(2){animation-delay:-.16s}
-
-@keyframes bounce{
-  0%,80%,100%{
-    transform:scale(.6);
-    opacity:.5;
-  }
-  40%{
-    transform:scale(1);
-    opacity:1;
-  }
+  border:1px solid #E2E8F0;
+  box-shadow:0 2px 10px rgba(15,23,42,.06);
+  border-bottom-left-radius:5px;
 }
 
 #bar{
   display:flex;
-  padding:12px 14px;
-  padding-bottom:max(12px,env(safe-area-inset-bottom));
-  background:rgba(255,255,255,.9);
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
-  border-top:1px solid rgba(226,232,240,.6);
-  gap:10px;
-  align-items:center;
+  gap:9px;
+  padding:11px 13px;
+  padding-bottom:max(11px,env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.94);
+  border-top:1px solid #E2E8F0;
 }
 
-#in{
+#answer{
   flex:1;
   min-width:0;
-  padding:13px 18px;
-  border:1.5px solid #E2E8F0;
-  border-radius:24px;
+  border:1.5px solid #D9DFEA;
+  border-radius:23px;
+  padding:12px 16px;
   font-size:16px;
   outline:none;
-  background:white;
-  color:#1E293B;
-  font-family:inherit;
 }
 
-#in:focus{
-  border-color:#4F46E5;
-  box-shadow:0 0 0 3px rgba(79,70,229,.12);
-}
-
-#sb{
-  width:48px;
-  height:48px;
-  padding:0;
-  background:linear-gradient(135deg,#4F46E5,#7C3AED);
-  color:white;
-  border:none;
+#send{
+  width:47px;
+  height:47px;
+  border:0;
   border-radius:50%;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 4px 12px rgba(79,70,229,.35);
-  flex-shrink:0;
+  background:#4F46E5;
+  color:white;
+  font-size:19px;
+  font-weight:900;
 }
 
-#sb:active{transform:scale(.92)}
-#sb:disabled{opacity:.5}
-
-#sb svg{
-  width:22px;
-  height:22px;
+.typing{
+  opacity:.65;
+  font-style:italic;
 }
 
-.hidden{
-  display:none !important;
-}
+@media(max-width:430px){
+  #dashboard{
+    padding-left:17px;
+    padding-right:17px;
+  }
 
-.empty{
-  background:white;
-  border-radius:18px;
-  padding:22px;
-  color:#64748B;
-  text-align:center;
-  border:1px solid #E2E8F0;
+  .logo{
+    font-size:34px;
+  }
+
+  .week{
+    gap:5px;
+  }
+
+  .day{
+    border-radius:15px;
+  }
+
+  .day-num{
+    font-size:18px;
+  }
+
+  .stats{
+    gap:10px;
+  }
+
+  .stat{
+    padding:17px 13px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="header-content">
+<main id="dashboard">
 
-    <button id="back" class="back-btn hidden">
-      ← Program
-    </button>
+  <div class="top">
+    <div>
+      <div class="logo">
+        ASLAN<br>LGS 2027
+      </div>
+      <div id="todayDate" class="date"></div>
+    </div>
 
-    <div id="avatar" class="avatar">A</div>
+    <div class="live">
+      <span class="live-dot"></span>
+      <span id="clock">Canlı</span>
+    </div>
+  </div>
 
-    <div class="header-text">
-      <div class="header-title">Aslan LGS 2027</div>
-      <div id="subtitle" class="header-subtitle">
-        Haftalık çalışma programı
+  <div class="rule"></div>
+
+  <div class="section-head">
+    <div class="section-title">Bugün</div>
+    <div id="todayPlanned" class="section-side"></div>
+  </div>
+
+  <div class="today-summary">
+    <div class="big-time" id="todayCount">0</div>
+    <div class="big-label">BUGÜNÜN PLANI</div>
+  </div>
+
+  <div id="todayMeta" class="today-meta"></div>
+
+  <div id="todayLessons"></div>
+
+  <div class="section-head">
+    <div class="section-title">Hafta</div>
+    <div id="weekRange" class="section-side"></div>
+  </div>
+
+  <div id="weekStrip" class="week"></div>
+
+  <div class="section-head">
+    <div class="section-title">Akademik Göstergeler</div>
+    <div id="skillTotal" class="section-side"></div>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat green">
+      <div class="stat-label">Sağlam</div>
+      <div id="solidNumber" class="stat-number">—</div>
+      <div class="stat-desc">
+        Kalıcılık dahil yeterli kanıt bulunan beceriler
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Bağımsız</div>
+      <div id="independentNumber" class="stat-number">—</div>
+      <div class="stat-desc">
+        Bağımsız kanıt bulunan beceriler
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Transfer Bekliyor</div>
+      <div id="transferNumber" class="stat-number">—</div>
+      <div class="stat-desc">
+        Yeni bağlamda kanıtlanması gereken beceriler
+      </div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Gecikmeli Kontrol</div>
+      <div id="retentionNumber" class="stat-number">—</div>
+      <div class="stat-desc">
+        Kalıcılık kontrolü bekleyen beceriler
       </div>
     </div>
 
   </div>
-</header>
 
-<div id="home"></div>
+  <div class="section-head">
+    <div class="section-title">Aktif Takip</div>
+  </div>
 
-<div id="chat" class="hidden"></div>
+  <div class="stats">
 
-<div id="bar" class="hidden">
+    <div class="stat orange">
+      <div id="retrievalCount" class="stat-number">—</div>
+      <div class="stat-label">Aktif Tekrar</div>
+      <div class="stat-desc">
+        Gecikmeli geri çağırma kuyruğu
+      </div>
+    </div>
 
-  <input
-    id="in"
-    placeholder="Cevabını yaz..."
-    autocomplete="off"
-    autocorrect="off"
-  >
+    <div class="stat red">
+      <div id="errorCount" class="stat-number">—</div>
+      <div class="stat-label">Açık Hata</div>
+      <div class="stat-desc">
+        Kontrol edilmesi gereken hata hipotezleri
+      </div>
+    </div>
 
-  <button id="sb" aria-label="Gönder">
+  </div>
 
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2.2"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+  <div class="section-head">
+    <div class="section-title">Öncelikler</div>
+  </div>
+
+  <div id="priorities"></div>
+
+  <div class="section-head">
+    <div class="section-title">Denemeler</div>
+  </div>
+
+  <div class="empty">
+    Henüz bu panelde gösterilecek deneme kaydı yok.
+    Deneme verisi geldiğinde akademik kayıt üzerinden burada gösterilecek.
+  </div>
+
+  <div class="footer">
+    ASLAN LGS 2027 · KİŞİSEL ÖĞRENME SİSTEMİ<br><br>
+    SUPABASE KANONİK AKADEMİK KAYIT
+  </div>
+
+</main>
+
+
+<section id="lessonView" class="hidden">
+
+  <div class="lesson-header">
+
+    <button id="back" class="back">
+      ← Program
+    </button>
+
+    <div class="lesson-head-text">
+      <div id="lessonHeadTitle" class="lesson-head-title">
+        Ders
+      </div>
+
+      <div id="lessonHeadSub" class="lesson-head-sub">
+        Adaptif öğretim
+      </div>
+    </div>
+
+  </div>
+
+  <div id="chat"></div>
+
+  <div id="bar">
+
+    <input
+      id="answer"
+      placeholder="Cevabını yaz..."
+      autocomplete="off"
+      autocorrect="off"
     >
-      <line x1="22" y1="2" x2="11" y2="13"></line>
-      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-    </svg>
 
-  </button>
+    <button id="send">↑</button>
 
-</div>
+  </div>
+
+</section>
+
 
 <script>
-
 const SID =
-  "3024051c-f5ce-47d6-bdf5-12dc2ea79f8c";
+"3024051c-f5ce-47d6-bdf5-12dc2ea79f8c";
 
 const API =
-  "https://nstwuvjtsqvyqsftzwke.supabase.co/functions/v1/tutor";
+"https://nstwuvjtsqvyqsftzwke.supabase.co/functions/v1/tutor";
 
-const SESS = crypto.randomUUID();
-
-const msgs = [];
-
+let weekData = null;
+let dashData = null;
 let activeLesson = null;
+let messages = [];
+let sessionId = crypto.randomUUID();
 
-const home = document.getElementById("home");
-const chat = document.getElementById("chat");
-const bar = document.getElementById("bar");
-const inp = document.getElementById("in");
-const sb = document.getElementById("sb");
-const back = document.getElementById("back");
-const avatar = document.getElementById("avatar");
-const subtitle = document.getElementById("subtitle");
+const dashboard =
+document.getElementById("dashboard");
+
+const lessonView =
+document.getElementById("lessonView");
+
+const chat =
+document.getElementById("chat");
+
+const answer =
+document.getElementById("answer");
+
+const send =
+document.getElementById("send");
 
 
-function escapeHTML(value){
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+function esc(v){
+  return String(v ?? "")
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
 }
 
 
-function formatTutorText(text){
-
-  let s = escapeHTML(text);
-
-  s = s.replace(
-    /\*\*([^*]+)\*\*/g,
-    "<strong>$1</strong>"
-  );
-
-  s = s.replace(
-    /(^|[^\*])\*([^*\n]+)\*(?!\*)/g,
-    "$1<em>$2</em>"
-  );
-
-  s = s.replace(
-    /\$([^$\n]+)\$/g,
-    '<span class="math">$1</span>'
-  );
-
-  s = s.replace(
-    /(^|\n)\s*---\s*(?=\n|$)/g,
-    '$1<span class="separator"></span>'
-  );
-
-  s = s.replace(/\n/g,"<br>");
-
-  return s;
-}
-
-
-async function call(action,payload){
+async function api(action,payload){
 
   const r = await fetch(API,{
     method:"POST",
@@ -502,80 +744,29 @@ async function call(action,payload){
     })
   });
 
-  let data;
+  let d;
 
   try{
-    data = await r.json();
-  }
-  catch{
+    d = await r.json();
+  }catch{
     throw new Error(
-      "Sunucudan geçersiz yanıt alındı."
+      "Sunucu yanıtı okunamadı."
     );
   }
 
   if(!r.ok){
-
     throw new Error(
-      data?.error ||
-      ("Sunucu hatası (" + r.status + ")")
+      d?.error ||
+      "Sunucu hatası"
     );
   }
 
-  return data;
+  return d;
 }
 
 
-function typeLabel(type){
-
-  const labels = {
-    onarim:"Onarım",
-    kalicilik:"Gecikmeli tekrar",
-    yeni:"Yeni öğrenme",
-    transfer:"Transfer",
-    lgs:"LGS uygulaması"
-  };
-
-  return labels[type] || type || "Çalışma";
-}
-
-
-function weekText(dateString){
-
-  const start =
-    new Date(dateString + "T12:00:00");
-
-  const end =
-    new Date(start);
-
-  end.setDate(
-    end.getDate() + 6
-  );
-
-  const a =
-    start.toLocaleDateString(
-      "tr-TR",
-      {
-        day:"numeric",
-        month:"long"
-      }
-    );
-
-  const b =
-    end.toLocaleDateString(
-      "tr-TR",
-      {
-        day:"numeric",
-        month:"long"
-      }
-    );
-
-  return a + " – " + b;
-}
-
-
-function todayName(){
-
-  const names = [
+function trDay(){
+  return [
     "Pazar",
     "Pazartesi",
     "Salı",
@@ -583,439 +774,730 @@ function todayName(){
     "Perşembe",
     "Cuma",
     "Cumartesi"
-  ];
-
-  return names[
-    new Date().getDay()
-  ];
+  ][new Date().getDay()];
 }
 
 
-async function loadWeek(){
+function shortDay(day){
+  return {
+    Pazartesi:"Pzt",
+    Salı:"Sal",
+    Çarşamba:"Çar",
+    Perşembe:"Per",
+    Cuma:"Cum",
+    Cumartesi:"Cmt",
+    Pazar:"Paz"
+  }[day] || day;
+}
 
-  home.classList.remove("hidden");
-  chat.classList.add("hidden");
-  bar.classList.add("hidden");
-  back.classList.add("hidden");
-  avatar.classList.remove("hidden");
 
-  subtitle.textContent =
-    "Haftalık çalışma programı";
+function subjectKey(item){
 
-  home.innerHTML =
-    '<div class="week-title">' +
-    'Bu Haftanın Programı' +
-    '</div>' +
-    '<div class="week-sub">' +
-    'Program hazırlanıyor…' +
-    '</div>';
+  const x =
+  (
+    item.subject_name ||
+    item.subject_id ||
+    ""
+  ).toLocaleLowerCase("tr-TR");
 
-  try{
+  if(x.includes("mat")) return "math";
+  if(x.includes("türk") || x.includes("turk")) return "turkish";
+  if(x.includes("fen")) return "science";
+  if(x.includes("ink") || x.includes("tarih")) return "history";
+  if(x.includes("din")) return "religion";
+  if(x.includes("ing") || x.includes("english")) return "english";
 
-    const data =
-      await call(
-        "weekly_plan",
-        {
-          student_id:SID
-        }
-      );
+  return "math";
+}
 
-    home.innerHTML =
-      '<div class="week-title">' +
-      'Bu Haftanın Programı' +
-      '</div>' +
-      '<div class="week-sub">' +
-      escapeHTML(
-        weekText(data.week_start)
-      ) +
-      ' • Plan v' +
-      escapeHTML(data.version) +
-      '</div>';
 
-    let total = 0;
+function subjectLabel(key){
 
-    const today = todayName();
+  return {
+    math:"MATEMATİK",
+    turkish:"TÜRKÇE",
+    science:"FEN",
+    history:"İNKILAP TARİHİ",
+    religion:"DİN KÜLTÜRÜ",
+    english:"İNGİLİZCE"
+  }[key] || "DERS";
+}
 
-    Object.entries(
-      data.days || {}
-    ).forEach(
-      ([day,items]) => {
 
-        if(
-          !Array.isArray(items) ||
-          items.length === 0
-        ){
-          return;
-        }
+function typeLabel(v){
 
-        total += items.length;
+  return {
+    onarim:"Onarım",
+    kalicilik:"Gecikmeli tekrar",
+    yeni:"Yeni öğrenme",
+    transfer:"Transfer",
+    lgs:"LGS uygulaması"
+  }[v] || v || "Çalışma";
+}
 
-        const section =
-          document.createElement(
-            "section"
-          );
 
-        section.className =
-          "day";
+function dateTR(d){
 
-        const title =
-          document.createElement(
-            "div"
-          );
+  return d.toLocaleDateString(
+    "tr-TR",
+    {
+      day:"numeric",
+      month:"long"
+    }
+  );
+}
 
-        title.className =
-          "day-title";
 
-        title.innerHTML =
-          "<h3>" +
-          escapeHTML(day) +
-          "</h3>" +
-          (
-            day === today
-              ? '<span class="today-badge">BUGÜN</span>'
-              : ""
-          );
+function formatTutor(text){
 
-        section.appendChild(
-          title
-        );
+  let s = esc(text);
 
-        items.forEach(
-          lesson => {
+  s = s.replace(
+    /\*\*([^*]+)\*\*/g,
+    "<strong>$1</strong>"
+  );
 
-            const card =
-              document.createElement(
-                "div"
-              );
+  s = s.replace(
+    /(^|[^\*])\*([^*\n]+)\*(?!\*)/g,
+    "$1<em>$2</em>"
+  );
 
-            card.className =
-              "lesson" +
-              (
-                lesson.completed
-                  ? " done"
-                  : ""
-              );
+  s = s.replace(/\n/g,"<br>");
 
-            const main =
-              document.createElement(
-                "div"
-              );
+  return s;
+}
 
-            main.className =
-              "lesson-main";
 
-            main.innerHTML =
-              '<div class="lesson-subject">' +
-              escapeHTML(
-                lesson.subject_name ||
-                lesson.subject_id ||
-                "Ders"
-              ) +
-              '</div>' +
+function setClock(){
 
-              '<div class="lesson-name">' +
-              escapeHTML(
-                lesson.skill_name ||
-                lesson.skill_id
-              ) +
-              '</div>' +
+  const now = new Date();
 
-              '<div class="lesson-type">' +
-              escapeHTML(
-                typeLabel(
-                  lesson.activity_type
-                )
-              ) +
-              '</div>';
+  document.getElementById("clock")
+  .textContent =
+  "Canlı " +
+  now.toLocaleTimeString(
+    "tr-TR",
+    {
+      hour:"2-digit",
+      minute:"2-digit"
+    }
+  );
+}
 
-            const button =
-              document.createElement(
-                "button"
-              );
 
-            button.className =
-              "start-btn";
+function renderHeader(){
 
-            button.textContent =
-              lesson.completed
-                ? "Tamamlandı"
-                : "Derse Başla";
+  const now = new Date();
 
-            button.disabled =
-              !!lesson.completed;
+  document.getElementById("todayDate")
+  .textContent =
+  now.toLocaleDateString(
+    "tr-TR",
+    {
+      day:"numeric",
+      month:"long",
+      weekday:"long"
+    }
+  ).toLocaleUpperCase("tr-TR");
 
-            button.onclick =
-              () => {
-                openLesson(
-                  lesson
-                );
-              };
+  setClock();
+}
 
-            card.appendChild(
-              main
-            );
 
-            card.appendChild(
-              button
-            );
+function normalizeWeek(){
 
-            section.appendChild(
-              card
-            );
-          }
-        );
+  /*
+    Plan motorundaki beceri seçimleri henüz
+    bütün dersleri doldurmasa bile ana program
+    6 LGS dersini haftaya dağıtır.
 
-        home.appendChild(
-          section
-        );
+    Gerçek plan maddesi varsa onu kullanır.
+    Yoksa o ders için "ders başlangıcı" kartı üretir.
+    Öğretim motoru derse girince kanıta göre
+    ilk uygun hedefi teşhis eder.
+  */
+
+  const raw = [];
+
+  if(weekData?.days){
+
+    Object.values(weekData.days)
+    .forEach(arr => {
+
+      if(Array.isArray(arr)){
+        arr.forEach(x => raw.push(x));
       }
-    );
 
-    if(total === 0){
+    });
+  }
 
-      home.innerHTML +=
-        '<div class="empty">' +
-        'Bu hafta için açık ders bulunmuyor.' +
-        '</div>';
+  const bySubject = {};
+
+  raw.forEach(x => {
+
+    const k = subjectKey(x);
+
+    if(!bySubject[k]){
+      bySubject[k] = x;
     }
 
-  }
-  catch(e){
+  });
 
-    home.innerHTML =
-      '<div class="week-title">' +
-      'Bu Haftanın Programı' +
+  const templates = [
+    {
+      day:"Pazartesi",
+      key:"math"
+    },
+    {
+      day:"Salı",
+      key:"turkish"
+    },
+    {
+      day:"Çarşamba",
+      key:"science"
+    },
+    {
+      day:"Perşembe",
+      key:"history"
+    },
+    {
+      day:"Cuma",
+      key:"religion"
+    },
+    {
+      day:"Cumartesi",
+      key:"english"
+    }
+  ];
+
+  const out = {};
+
+  [
+    "Pazartesi",
+    "Salı",
+    "Çarşamba",
+    "Perşembe",
+    "Cuma",
+    "Cumartesi",
+    "Pazar"
+  ].forEach(d => out[d] = []);
+
+  templates.forEach(t => {
+
+    const real =
+    bySubject[t.key];
+
+    if(real){
+
+      out[t.day].push({
+        ...real,
+        uiSubject:t.key,
+        fallback:false
+      });
+
+    }else{
+
+      out[t.day].push({
+        plan_item_id:null,
+        skill_id:null,
+        skill_name:
+          subjectLabel(t.key) +
+          " — sıradaki akademik hedef",
+        subject_name:
+          subjectLabel(t.key),
+        subject_id:t.key,
+        activity_type:"yeni",
+        required_evidence_type:
+          "diagnostic",
+        completed:false,
+        uiSubject:t.key,
+        fallback:true
+      });
+
+    }
+
+  });
+
+  /*
+    Gerçek planda onarım/tekrar varsa,
+    kendi dersinin gününe ikinci kart olarak ekle.
+  */
+
+  raw.forEach(x => {
+
+    const k = subjectKey(x);
+
+    const already =
+    bySubject[k] === x;
+
+    if(already) return;
+
+    const day = {
+      math:"Pazartesi",
+      turkish:"Salı",
+      science:"Çarşamba",
+      history:"Perşembe",
+      religion:"Cuma",
+      english:"Cumartesi"
+    }[k];
+
+    if(day){
+
+      out[day].push({
+        ...x,
+        uiSubject:k,
+        fallback:false
+      });
+
+    }
+
+  });
+
+  return out;
+}
+
+
+function renderWeek(){
+
+  const days = normalizeWeek();
+
+  const today = trDay();
+
+  const todayItems =
+  days[today] || [];
+
+  document.getElementById("todayCount")
+  .textContent =
+  todayItems.length;
+
+  document.getElementById("todayPlanned")
+  .textContent =
+  todayItems.length +
+  " ders";
+
+  document.getElementById("todayMeta")
+  .textContent =
+  todayItems.length
+  ? todayItems.length +
+    " ders · akademik kanıta göre yürütülecek"
+  : "Bugün planlanmış ders yok.";
+
+  const box =
+  document.getElementById("todayLessons");
+
+  box.innerHTML = "";
+
+  todayItems.forEach(item => {
+
+    const key =
+    item.uiSubject ||
+    subjectKey(item);
+
+    const card =
+    document.createElement("div");
+
+    card.className =
+    "lesson-card " + key;
+
+    card.innerHTML =
+    '<div class="lesson-subject">' +
+    esc(subjectLabel(key)) +
+    '</div>' +
+
+    '<div class="lesson-target">' +
+    esc(item.skill_name) +
+    '</div>' +
+
+    '<div class="lesson-type">' +
+    esc(typeLabel(item.activity_type)) +
+    '</div>' +
+
+    '<button class="start">' +
+    'DERSE BAŞLA' +
+    '</button>';
+
+    card.querySelector(".start")
+    .onclick =
+    () => openLesson(item);
+
+    box.appendChild(card);
+
+  });
+
+
+  const start =
+  new Date(
+    weekData.week_start +
+    "T12:00:00"
+  );
+
+  const end =
+  new Date(start);
+
+  end.setDate(
+    end.getDate()+6
+  );
+
+  document.getElementById("weekRange")
+  .textContent =
+  dateTR(start) +
+  " – " +
+  dateTR(end);
+
+  const strip =
+  document.getElementById("weekStrip");
+
+  strip.innerHTML = "";
+
+  const order = [
+    "Pazartesi",
+    "Salı",
+    "Çarşamba",
+    "Perşembe",
+    "Cuma",
+    "Cumartesi",
+    "Pazar"
+  ];
+
+  order.forEach(
+    (day,index) => {
+
+      const d =
+      new Date(start);
+
+      d.setDate(
+        start.getDate()+index
+      );
+
+      const el =
+      document.createElement("div");
+
+      el.className =
+      "day" +
+      (
+        day === today
+        ? " today"
+        : ""
+      );
+
+      const dots =
+      (days[day] || [])
+      .map(x =>
+        '<span class="dot ' +
+        esc(
+          x.uiSubject ||
+          subjectKey(x)
+        ) +
+        '"></span>'
+      )
+      .join("");
+
+      el.innerHTML =
+      '<div class="day-name">' +
+      esc(shortDay(day)) +
       '</div>' +
 
-      '<div class="empty">' +
-      'Program yüklenemedi.<br><br>' +
-      escapeHTML(e.message) +
+      '<div class="day-num">' +
+      d.getDate() +
+      '</div>' +
+
+      '<div class="dots">' +
+      dots +
       '</div>';
-  }
+
+      strip.appendChild(el);
+    }
+  );
 }
 
 
-function add(role,text){
+function countStatus(name){
 
-  const d =
-    document.createElement(
-      "div"
-    );
-
-  d.className =
-    "msg " + role;
-
-  if(role === "tutor"){
-    d.innerHTML =
-      formatTutorText(text);
-  }
-  else{
-    d.textContent =
-      text;
-  }
-
-  chat.appendChild(d);
-
-  chat.scrollTop =
-    chat.scrollHeight;
-
-  return d;
+  return Number(
+    dashData?.counts?.[name] || 0
+  );
 }
 
 
-function showTyping(){
+function renderDashboard(){
 
-  const old =
-    document.getElementById(
-      "typing"
-    );
+  const total =
+  Number(
+    dashData?.total_skills || 0
+  );
 
-  if(old){
-    old.remove();
-  }
+  document.getElementById("skillTotal")
+  .textContent =
+  total +
+  " beceri düğümü";
 
-  const d =
-    document.createElement(
-      "div"
-    );
+  document.getElementById("solidNumber")
+  .textContent =
+  countStatus("SAĞLAM");
 
-  d.className =
-    "msg tutor";
+  document.getElementById("independentNumber")
+  .textContent =
+  countStatus("BAĞIMSIZ");
 
-  d.id =
-    "typing";
+  document.getElementById("transferNumber")
+  .textContent =
+  countStatus("TRANSFER BEKLİYOR");
 
-  d.innerHTML =
-    '<div class="typing">' +
-    '<span></span>' +
-    '<span></span>' +
-    '<span></span>' +
+  document.getElementById("retentionNumber")
+  .textContent =
+  countStatus(
+    "GECİKMELİ KONTROL BEKLİYOR"
+  );
+
+  document.getElementById("retrievalCount")
+  .textContent =
+  dashData?.active_retrieval ?? 0;
+
+  document.getElementById("errorCount")
+  .textContent =
+  dashData?.open_errors ?? 0;
+
+
+  const p =
+  document.getElementById("priorities");
+
+  p.innerHTML = "";
+
+  const priorities =
+  dashData?.priorities || [];
+
+  if(!priorities.length){
+
+    p.innerHTML =
+    '<div class="empty">' +
+    'Şu anda gösterilecek yüksek öncelikli akademik olay yok.' +
     '</div>';
 
-  chat.appendChild(d);
+    return;
+  }
+
+  priorities.forEach(
+    (x,index) => {
+
+      const row =
+      document.createElement("div");
+
+      row.className =
+      "priority";
+
+      row.innerHTML =
+      '<div class="priority-num">' +
+      String(index+1).padStart(2,"0") +
+      '</div>' +
+
+      '<div>' +
+
+      '<div class="priority-name">' +
+      esc(x.name || x.skill_id) +
+      '</div>' +
+
+      '<div class="priority-note">' +
+      esc(x.note || "") +
+      '</div>' +
+
+      '<div class="priority-subject">' +
+      esc(
+        (x.subject || "Ders") +
+        " · " +
+        (x.kind || "Öncelik")
+      ) +
+      '</div>' +
+
+      '</div>';
+
+      p.appendChild(row);
+    }
+  );
+}
+
+
+function addMessage(role,text){
+
+  const el =
+  document.createElement("div");
+
+  el.className =
+  "msg " + role;
+
+  if(role === "tutor"){
+    el.innerHTML =
+    formatTutor(text);
+  }else{
+    el.textContent = text;
+  }
+
+  chat.appendChild(el);
 
   chat.scrollTop =
-    chat.scrollHeight;
+  chat.scrollHeight;
+
+  return el;
 }
 
 
-function hideTyping(){
-
-  const t =
-    document.getElementById(
-      "typing"
-    );
-
-  if(t){
-    t.remove();
-  }
-}
-
-
-async function go(text){
+async function tutorTurn(text=null){
 
   if(text){
 
-    add(
+    addMessage(
       "user",
       text
     );
 
-    msgs.push({
+    messages.push({
       role:"user",
       parts:[
-        {
-          text:text
-        }
+        {text}
       ]
     });
   }
 
-  sb.disabled = true;
-  inp.disabled = true;
+  const wait =
+  addMessage(
+    "tutor",
+    "Düşünüyor…"
+  );
 
-  showTyping();
+  wait.classList.add("typing");
+
+  send.disabled = true;
+  answer.disabled = true;
 
   try{
 
     const d =
-      await call(
-        "tutor",
-        {
-          messages:msgs,
-          student_id:SID,
-          session_id:SESS
-        }
-      );
-
-    hideTyping();
-
-    const answer =
-      d.text ||
-      "(boş yanıt)";
-
-    add(
+    await api(
       "tutor",
-      answer
+      {
+        student_id:SID,
+        session_id:sessionId,
+        messages
+      }
     );
 
-    msgs.push({
+    wait.remove();
+
+    const response =
+    d.text || "(boş yanıt)";
+
+    addMessage(
+      "tutor",
+      response
+    );
+
+    messages.push({
       role:"model",
       parts:[
-        {
-          text:answer
-        }
+        {text:response}
       ]
     });
 
-  }
-  catch(e){
+  }catch(e){
 
-    hideTyping();
+    wait.remove();
 
-    add(
+    addMessage(
       "tutor",
       "Bağlantı hatası: " +
       e.message
     );
+
+  }finally{
+
+    send.disabled = false;
+    answer.disabled = false;
+    answer.focus();
+
   }
-
-  sb.disabled = false;
-  inp.disabled = false;
-
-  inp.focus();
 }
 
 
-function openLesson(lesson){
+function openLesson(item){
 
-  activeLesson =
-    lesson;
+  activeLesson = item;
 
-  home.classList.add(
+  messages = [];
+
+  sessionId =
+  crypto.randomUUID();
+
+  dashboard.classList.add(
     "hidden"
   );
 
-  chat.classList.remove(
+  lessonView.classList.remove(
     "hidden"
   );
-
-  bar.classList.remove(
-    "hidden"
-  );
-
-  back.classList.remove(
-    "hidden"
-  );
-
-  avatar.classList.add(
-    "hidden"
-  );
-
-  subtitle.textContent =
-    (
-      lesson.subject_name ||
-      lesson.subject_id ||
-      "Ders"
-    ) +
-    " • " +
-    typeLabel(
-      lesson.activity_type
-    );
 
   chat.innerHTML = "";
 
-  msgs.length = 0;
+  const key =
+  item.uiSubject ||
+  subjectKey(item);
 
-  const instruction =
-    "HAFTALIK PLAN DERSİ.\n" +
+  document.getElementById(
+    "lessonHeadTitle"
+  ).textContent =
+  subjectLabel(key);
+
+  document.getElementById(
+    "lessonHeadSub"
+  ).textContent =
+  item.skill_name ||
+  "Adaptif ders";
+
+
+  let instruction;
+
+  if(item.fallback){
+
+    instruction =
+    "GERÇEK HAFTALIK DERS.\n" +
     "Ders: " +
-    (
-      lesson.subject_name ||
-      lesson.subject_id
-    ) +
+    subjectLabel(key) +
+    ".\n" +
+    "Bu ders için haftalık planda henüz güvenilir bir beceri maddesi bulunmuyor. " +
+    "Rastgele konu seçme. " +
+    "Kanonik akademik kayıt ve ders motorunun öğretim sırasına göre bu dersin sıradaki uygun hedefini belirle. " +
+    "Kritik önkoşul eksikse önce onu kontrol et. " +
+    "Bilinen beceriyi gereksiz yeniden öğretme. " +
+    "İlk kısa teşhis/görevi ver ve öğrencinin cevabını bekle.";
+
+  }else{
+
+    instruction =
+    "GERÇEK HAFTALIK PLAN DERSİ.\n" +
+    "Ders: " +
+    subjectLabel(key) +
     ".\n" +
     "Hedef beceri: " +
-    lesson.skill_name +
+    item.skill_name +
     " (" +
-    lesson.skill_id +
+    item.skill_id +
     ").\n" +
     "Etkinlik türü: " +
-    lesson.activity_type +
+    item.activity_type +
     ".\n" +
     "Gerekli kanıt: " +
-    lesson.required_evidence_type +
+    item.required_evidence_type +
     ".\n" +
     "Plan maddesi: " +
-    lesson.plan_item_id +
+    item.plan_item_id +
     ".\n" +
-    "Bu gerçek derstir. " +
-    "Yalnız bu hedefi ve gerekli önkoşul onarımını yürüt. " +
-    "Öğrencinin mevcut kanıtına göre teşhis et. " +
-    "Bildiğini gereksiz tekrar öğretme. " +
+    "Bu simülasyon değildir. " +
+    "Mevcut akademik kanıta göre ilerle. " +
+    "Kritik önkoşul gerekiyorsa kısa onarım yap ve ana hedefe dön. " +
+    "Bildiğini gereksiz yeniden öğretme. " +
     "İlk görevi ver ve öğrencinin cevabını bekle.";
 
-  msgs.push({
+  }
+
+  messages.push({
     role:"user",
     parts:[
       {
@@ -1024,63 +1506,117 @@ function openLesson(lesson){
     ]
   });
 
-  go(null);
+  tutorTurn();
 }
 
 
-back.onclick =
-  () => {
+document.getElementById("back")
+.onclick =
+async () => {
 
-    activeLesson = null;
+  lessonView.classList.add(
+    "hidden"
+  );
 
-    msgs.length = 0;
+  dashboard.classList.remove(
+    "hidden"
+  );
 
-    loadWeek();
-  };
+  activeLesson = null;
 
-
-sb.onclick =
-  () => {
-
-    const text =
-      inp.value.trim();
-
-    if(!text){
-      return;
-    }
-
-    inp.value = "";
-
-    go(text);
-  };
+  await loadAll();
+};
 
 
-inp.addEventListener(
+send.onclick =
+() => {
+
+  const text =
+  answer.value.trim();
+
+  if(!text) return;
+
+  answer.value = "";
+
+  tutorTurn(text);
+};
+
+
+answer.addEventListener(
   "keydown",
   e => {
 
     if(e.key === "Enter"){
 
       e.preventDefault();
+      send.click();
 
-      sb.click();
     }
   }
 );
 
 
-if(
-  "serviceWorker" in navigator
-){
+async function loadAll(){
 
-  navigator.serviceWorker
-    .register("sw.js")
-    .catch(()=>{});
+  renderHeader();
+
+  try{
+
+    const results =
+    await Promise.all([
+      api(
+        "weekly_plan",
+        {
+          student_id:SID
+        }
+      ),
+      api(
+        "dashboard",
+        {
+          student_id:SID
+        }
+      )
+    ]);
+
+    weekData =
+    results[0];
+
+    dashData =
+    results[1];
+
+    renderWeek();
+    renderDashboard();
+
+  }catch(e){
+
+    document.getElementById(
+      "todayLessons"
+    ).innerHTML =
+    '<div class="empty">' +
+    'Veriler yüklenemedi.<br><br>' +
+    esc(e.message) +
+    '</div>';
+
+  }
 }
 
 
-loadWeek();
+setInterval(
+  setClock,
+  30000
+);
 
+
+if("serviceWorker" in navigator){
+
+  navigator.serviceWorker
+  .register("sw.js")
+  .catch(()=>{});
+
+}
+
+
+loadAll();
 </script>
 
 </body>
