@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 
-<title>Aslan LGS</title>
+<title>Aslan LGS 2027</title>
 
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#4F46E5">
@@ -31,18 +31,14 @@ html,body{
 body{
   display:flex;
   flex-direction:column;
-  background:linear-gradient(
-    135deg,
-    #EEF2FF 0%,
-    #F5F3FF 50%,
-    #FDF4FF 100%
-  );
+  background:linear-gradient(135deg,#EEF2FF 0%,#F5F3FF 50%,#FDF4FF 100%);
+  color:#1E293B;
 }
 
 header{
   background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);
   color:white;
-  padding:16px 20px;
+  padding:16px 18px;
   padding-top:max(16px,env(safe-area-inset-top));
   box-shadow:0 4px 20px rgba(79,70,229,.25);
   position:relative;
@@ -64,17 +60,15 @@ header{
   align-items:center;
   justify-content:center;
   font-size:22px;
-  font-weight:700;
+  font-weight:800;
   border:2px solid rgba(255,255,255,.4);
 }
 
-.header-text{
-  flex:1;
-}
+.header-text{flex:1}
 
 .header-title{
   font-size:17px;
-  font-weight:700;
+  font-weight:800;
 }
 
 .header-subtitle{
@@ -82,6 +76,136 @@ header{
   opacity:.85;
   margin-top:2px;
 }
+
+.back-btn{
+  border:0;
+  background:rgba(255,255,255,.18);
+  color:white;
+  border-radius:10px;
+  padding:9px 11px;
+  font-weight:700;
+  font-family:inherit;
+}
+
+/* HAFTALIK PROGRAM */
+
+#home{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 14px 34px;
+  -webkit-overflow-scrolling:touch;
+}
+
+.week-title{
+  font-size:23px;
+  font-weight:850;
+  color:#1E293B;
+  margin:0 4px 4px;
+}
+
+.week-sub{
+  font-size:13px;
+  color:#64748B;
+  margin:0 4px 20px;
+}
+
+.day{
+  margin-bottom:22px;
+}
+
+.day-title{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:0 4px 9px;
+}
+
+.day-title h3{
+  margin:0;
+  font-size:15px;
+  font-weight:800;
+  color:#334155;
+}
+
+.today-badge{
+  background:#E0E7FF;
+  color:#4338CA;
+  padding:3px 8px;
+  border-radius:20px;
+  font-size:10px;
+  font-weight:800;
+}
+
+.lesson{
+  background:white;
+  border:1px solid rgba(226,232,240,.9);
+  border-radius:18px;
+  padding:15px;
+  margin:9px 0;
+  box-shadow:0 3px 14px rgba(15,23,42,.06);
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.lesson.done{
+  opacity:.58;
+}
+
+.lesson-main{
+  flex:1;
+  min-width:0;
+}
+
+.lesson-subject{
+  font-size:11px;
+  font-weight:850;
+  color:#4F46E5;
+  text-transform:uppercase;
+  letter-spacing:.4px;
+}
+
+.lesson-name{
+  font-size:15px;
+  line-height:1.3;
+  font-weight:800;
+  color:#1E293B;
+  margin-top:4px;
+}
+
+.lesson-type{
+  display:inline-block;
+  font-size:11px;
+  color:#64748B;
+  background:#F1F5F9;
+  padding:4px 7px;
+  border-radius:8px;
+  margin-top:7px;
+}
+
+.start-btn{
+  flex-shrink:0;
+  border:0;
+  border-radius:12px;
+  padding:11px 12px;
+  background:linear-gradient(135deg,#4F46E5,#7C3AED);
+  color:white;
+  font-weight:800;
+  font-size:12px;
+  font-family:inherit;
+  box-shadow:0 3px 9px rgba(79,70,229,.24);
+}
+
+.start-btn:active{
+  transform:scale(.96);
+}
+
+.start-btn:disabled{
+  background:#94A3B8;
+  box-shadow:none;
+}
+
+/* DERS / SOHBET */
 
 #chat{
   flex:1;
@@ -91,9 +215,11 @@ header{
   flex-direction:column;
   gap:14px;
   scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
 }
 
-#chat::-webkit-scrollbar{
+#chat::-webkit-scrollbar,
+#home::-webkit-scrollbar{
   width:0;
 }
 
@@ -104,44 +230,23 @@ header{
   line-height:1.55;
   font-size:15px;
   word-wrap:break-word;
-  white-space:normal;
-  animation:pop .35s cubic-bezier(.34,1.56,.64,1);
-}
-
-.msg strong{
-  font-weight:700;
-}
-
-.msg em{
-  font-style:italic;
-}
-
-.math{
-  font-family:Georgia,"Times New Roman",serif;
-  font-style:italic;
-}
-
-.separator{
-  display:block;
-  height:1px;
-  background:#E2E8F0;
-  margin:10px 0;
+  animation:pop .25s ease;
 }
 
 @keyframes pop{
-  0%{
+  from{
     opacity:0;
-    transform:translateY(8px) scale(.96);
+    transform:translateY(6px);
   }
-  100%{
+  to{
     opacity:1;
-    transform:translateY(0) scale(1);
+    transform:none;
   }
 }
 
 .user{
   align-self:flex-end;
-  background:linear-gradient(135deg,#4F46E5 0%,#6366F1 100%);
+  background:linear-gradient(135deg,#4F46E5,#6366F1);
   color:white;
   border-bottom-right-radius:6px;
   box-shadow:0 2px 8px rgba(79,70,229,.3);
@@ -154,6 +259,21 @@ header{
   border-bottom-left-radius:6px;
   box-shadow:0 2px 12px rgba(15,23,42,.06);
   border:1px solid rgba(226,232,240,.8);
+}
+
+.msg strong{font-weight:800}
+.msg em{font-style:italic}
+
+.math{
+  font-family:Georgia,"Times New Roman",serif;
+  font-style:italic;
+}
+
+.separator{
+  display:block;
+  height:1px;
+  background:#E2E8F0;
+  margin:10px 0;
 }
 
 .typing{
@@ -170,13 +290,8 @@ header{
   animation:bounce 1.4s infinite ease-in-out;
 }
 
-.typing span:nth-child(1){
-  animation-delay:-.32s;
-}
-
-.typing span:nth-child(2){
-  animation-delay:-.16s;
-}
+.typing span:nth-child(1){animation-delay:-.32s}
+.typing span:nth-child(2){animation-delay:-.16s}
 
 @keyframes bounce{
   0%,80%,100%{
@@ -193,7 +308,7 @@ header{
   display:flex;
   padding:12px 14px;
   padding-bottom:max(12px,env(safe-area-inset-bottom));
-  background:rgba(255,255,255,.88);
+  background:rgba(255,255,255,.9);
   backdrop-filter:blur(12px);
   -webkit-backdrop-filter:blur(12px);
   border-top:1px solid rgba(226,232,240,.6);
@@ -203,6 +318,7 @@ header{
 
 #in{
   flex:1;
+  min-width:0;
   padding:13px 18px;
   border:1.5px solid #E2E8F0;
   border-radius:24px;
@@ -222,11 +338,10 @@ header{
   width:48px;
   height:48px;
   padding:0;
-  background:linear-gradient(135deg,#4F46E5 0%,#7C3AED 100%);
+  background:linear-gradient(135deg,#4F46E5,#7C3AED);
   color:white;
   border:none;
   border-radius:50%;
-  cursor:pointer;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -234,17 +349,25 @@ header{
   flex-shrink:0;
 }
 
-#sb:active{
-  transform:scale(.92);
-}
-
-#sb:disabled{
-  opacity:.5;
-}
+#sb:active{transform:scale(.92)}
+#sb:disabled{opacity:.5}
 
 #sb svg{
   width:22px;
   height:22px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+.empty{
+  background:white;
+  border-radius:18px;
+  padding:22px;
+  color:#64748B;
+  text-align:center;
+  border:1px solid #E2E8F0;
 }
 </style>
 </head>
@@ -253,20 +376,28 @@ header{
 
 <header>
   <div class="header-content">
-    <div class="avatar">A</div>
+
+    <button id="back" class="back-btn hidden">
+      ← Program
+    </button>
+
+    <div id="avatar" class="avatar">A</div>
 
     <div class="header-text">
-      <div class="header-title">Aslan LGS</div>
-      <div class="header-subtitle">
-        2027 hazırlık • çevrimiçi
+      <div class="header-title">Aslan LGS 2027</div>
+      <div id="subtitle" class="header-subtitle">
+        Haftalık çalışma programı
       </div>
     </div>
+
   </div>
 </header>
 
-<div id="chat"></div>
+<div id="home"></div>
 
-<div id="bar">
+<div id="chat" class="hidden"></div>
+
+<div id="bar" class="hidden">
 
   <input
     id="in"
@@ -305,74 +436,52 @@ const SESS = crypto.randomUUID();
 
 const msgs = [];
 
+let activeLesson = null;
+
+const home = document.getElementById("home");
 const chat = document.getElementById("chat");
+const bar = document.getElementById("bar");
 const inp = document.getElementById("in");
 const sb = document.getElementById("sb");
+const back = document.getElementById("back");
+const avatar = document.getElementById("avatar");
+const subtitle = document.getElementById("subtitle");
+
+
+function escapeHTML(value){
+
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
 
 function formatTutorText(text){
 
-  let s = String(text ?? "");
-
-  /*
-    Önce HTML karakterlerini güvenli hale getiriyoruz.
-    Böylece model HTML gönderse bile çalıştırılmaz.
-  */
-
-  s = s
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;");
-
-
-  /*
-    Markdown kalın:
-    **metin**
-  */
+  let s = escapeHTML(text);
 
   s = s.replace(
     /\*\*([^*]+)\*\*/g,
     "<strong>$1</strong>"
   );
 
-
-  /*
-    Markdown italik:
-    *metin*
-  */
-
   s = s.replace(
     /(^|[^\*])\*([^*\n]+)\*(?!\*)/g,
     "$1<em>$2</em>"
   );
-
-
-  /*
-    Basit matematik:
-    $x$ → x
-    $4x+15$ → 4x+15
-  */
 
   s = s.replace(
     /\$([^$\n]+)\$/g,
     '<span class="math">$1</span>'
   );
 
-
-  /*
-    Markdown yatay çizgi:
-    ---
-  */
-
   s = s.replace(
     /(^|\n)\s*---\s*(?=\n|$)/g,
     '$1<span class="separator"></span>'
   );
-
-
-  /*
-    Satır sonları
-  */
 
   s = s.replace(/\n/g,"<br>");
 
@@ -380,73 +489,18 @@ function formatTutorText(text){
 }
 
 
-function add(role,text){
-
-  const d = document.createElement("div");
-
-  d.className = "msg " + role;
-
-  if(role === "tutor"){
-    d.innerHTML = formatTutorText(text);
-  }
-  else{
-    d.textContent = text;
-  }
-
-  chat.appendChild(d);
-
-  chat.scrollTop = chat.scrollHeight;
-
-  return d;
-}
-
-
-function showTyping(){
-
-  const d = document.createElement("div");
-
-  d.className = "msg tutor";
-
-  d.id = "typing";
-
-  d.innerHTML =
-    '<div class="typing">' +
-    '<span></span>' +
-    '<span></span>' +
-    '<span></span>' +
-    '</div>';
-
-  chat.appendChild(d);
-
-  chat.scrollTop = chat.scrollHeight;
-}
-
-
-function hideTyping(){
-
-  const t = document.getElementById("typing");
-
-  if(t){
-    t.remove();
-  }
-}
-
-
 async function call(action,payload){
 
   const r = await fetch(API,{
     method:"POST",
-
     headers:{
       "Content-Type":"application/json"
     },
-
     body:JSON.stringify({
       action,
       payload
     })
   });
-
 
   let data;
 
@@ -458,7 +512,6 @@ async function call(action,payload){
       "Sunucudan geçersiz yanıt alındı."
     );
   }
-
 
   if(!r.ok){
 
@@ -472,54 +525,406 @@ async function call(action,payload){
 }
 
 
+function typeLabel(type){
+
+  const labels = {
+    onarim:"Onarım",
+    kalicilik:"Gecikmeli tekrar",
+    yeni:"Yeni öğrenme",
+    transfer:"Transfer",
+    lgs:"LGS uygulaması"
+  };
+
+  return labels[type] || type || "Çalışma";
+}
+
+
+function weekText(dateString){
+
+  const start =
+    new Date(dateString + "T12:00:00");
+
+  const end =
+    new Date(start);
+
+  end.setDate(
+    end.getDate() + 6
+  );
+
+  const a =
+    start.toLocaleDateString(
+      "tr-TR",
+      {
+        day:"numeric",
+        month:"long"
+      }
+    );
+
+  const b =
+    end.toLocaleDateString(
+      "tr-TR",
+      {
+        day:"numeric",
+        month:"long"
+      }
+    );
+
+  return a + " – " + b;
+}
+
+
+function todayName(){
+
+  const names = [
+    "Pazar",
+    "Pazartesi",
+    "Salı",
+    "Çarşamba",
+    "Perşembe",
+    "Cuma",
+    "Cumartesi"
+  ];
+
+  return names[
+    new Date().getDay()
+  ];
+}
+
+
+async function loadWeek(){
+
+  home.classList.remove("hidden");
+  chat.classList.add("hidden");
+  bar.classList.add("hidden");
+  back.classList.add("hidden");
+  avatar.classList.remove("hidden");
+
+  subtitle.textContent =
+    "Haftalık çalışma programı";
+
+  home.innerHTML =
+    '<div class="week-title">' +
+    'Bu Haftanın Programı' +
+    '</div>' +
+    '<div class="week-sub">' +
+    'Program hazırlanıyor…' +
+    '</div>';
+
+  try{
+
+    const data =
+      await call(
+        "weekly_plan",
+        {
+          student_id:SID
+        }
+      );
+
+    home.innerHTML =
+      '<div class="week-title">' +
+      'Bu Haftanın Programı' +
+      '</div>' +
+      '<div class="week-sub">' +
+      escapeHTML(
+        weekText(data.week_start)
+      ) +
+      ' • Plan v' +
+      escapeHTML(data.version) +
+      '</div>';
+
+    let total = 0;
+
+    const today = todayName();
+
+    Object.entries(
+      data.days || {}
+    ).forEach(
+      ([day,items]) => {
+
+        if(
+          !Array.isArray(items) ||
+          items.length === 0
+        ){
+          return;
+        }
+
+        total += items.length;
+
+        const section =
+          document.createElement(
+            "section"
+          );
+
+        section.className =
+          "day";
+
+        const title =
+          document.createElement(
+            "div"
+          );
+
+        title.className =
+          "day-title";
+
+        title.innerHTML =
+          "<h3>" +
+          escapeHTML(day) +
+          "</h3>" +
+          (
+            day === today
+              ? '<span class="today-badge">BUGÜN</span>'
+              : ""
+          );
+
+        section.appendChild(
+          title
+        );
+
+        items.forEach(
+          lesson => {
+
+            const card =
+              document.createElement(
+                "div"
+              );
+
+            card.className =
+              "lesson" +
+              (
+                lesson.completed
+                  ? " done"
+                  : ""
+              );
+
+            const main =
+              document.createElement(
+                "div"
+              );
+
+            main.className =
+              "lesson-main";
+
+            main.innerHTML =
+              '<div class="lesson-subject">' +
+              escapeHTML(
+                lesson.subject_name ||
+                lesson.subject_id ||
+                "Ders"
+              ) +
+              '</div>' +
+
+              '<div class="lesson-name">' +
+              escapeHTML(
+                lesson.skill_name ||
+                lesson.skill_id
+              ) +
+              '</div>' +
+
+              '<div class="lesson-type">' +
+              escapeHTML(
+                typeLabel(
+                  lesson.activity_type
+                )
+              ) +
+              '</div>';
+
+            const button =
+              document.createElement(
+                "button"
+              );
+
+            button.className =
+              "start-btn";
+
+            button.textContent =
+              lesson.completed
+                ? "Tamamlandı"
+                : "Derse Başla";
+
+            button.disabled =
+              !!lesson.completed;
+
+            button.onclick =
+              () => {
+                openLesson(
+                  lesson
+                );
+              };
+
+            card.appendChild(
+              main
+            );
+
+            card.appendChild(
+              button
+            );
+
+            section.appendChild(
+              card
+            );
+          }
+        );
+
+        home.appendChild(
+          section
+        );
+      }
+    );
+
+    if(total === 0){
+
+      home.innerHTML +=
+        '<div class="empty">' +
+        'Bu hafta için açık ders bulunmuyor.' +
+        '</div>';
+    }
+
+  }
+  catch(e){
+
+    home.innerHTML =
+      '<div class="week-title">' +
+      'Bu Haftanın Programı' +
+      '</div>' +
+
+      '<div class="empty">' +
+      'Program yüklenemedi.<br><br>' +
+      escapeHTML(e.message) +
+      '</div>';
+  }
+}
+
+
+function add(role,text){
+
+  const d =
+    document.createElement(
+      "div"
+    );
+
+  d.className =
+    "msg " + role;
+
+  if(role === "tutor"){
+    d.innerHTML =
+      formatTutorText(text);
+  }
+  else{
+    d.textContent =
+      text;
+  }
+
+  chat.appendChild(d);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+
+  return d;
+}
+
+
+function showTyping(){
+
+  const old =
+    document.getElementById(
+      "typing"
+    );
+
+  if(old){
+    old.remove();
+  }
+
+  const d =
+    document.createElement(
+      "div"
+    );
+
+  d.className =
+    "msg tutor";
+
+  d.id =
+    "typing";
+
+  d.innerHTML =
+    '<div class="typing">' +
+    '<span></span>' +
+    '<span></span>' +
+    '<span></span>' +
+    '</div>';
+
+  chat.appendChild(d);
+
+  chat.scrollTop =
+    chat.scrollHeight;
+}
+
+
+function hideTyping(){
+
+  const t =
+    document.getElementById(
+      "typing"
+    );
+
+  if(t){
+    t.remove();
+  }
+}
+
+
 async function go(text){
 
   if(text){
 
-    add("user",text);
+    add(
+      "user",
+      text
+    );
 
     msgs.push({
       role:"user",
       parts:[
-        {text:text}
+        {
+          text:text
+        }
       ]
     });
   }
-
 
   sb.disabled = true;
   inp.disabled = true;
 
   showTyping();
 
-
   try{
 
-    const d = await call(
-      "tutor",
-      {
-        messages:msgs,
-        student_id:SID,
-        session_id:SESS
-      }
-    );
-
+    const d =
+      await call(
+        "tutor",
+        {
+          messages:msgs,
+          student_id:SID,
+          session_id:SESS
+        }
+      );
 
     hideTyping();
 
-
-    const t =
+    const answer =
       d.text ||
       "(boş yanıt)";
 
-
-    add("tutor",t);
-
+    add(
+      "tutor",
+      answer
+    );
 
     msgs.push({
       role:"model",
       parts:[
-        {text:t}
+        {
+          text:answer
+        }
       ]
     });
 
@@ -530,10 +935,10 @@ async function go(text){
 
     add(
       "tutor",
-      "Bağlantı hatası: " + e.message
+      "Bağlantı hatası: " +
+      e.message
     );
   }
-
 
   sb.disabled = false;
   inp.disabled = false;
@@ -542,70 +947,112 @@ async function go(text){
 }
 
 
-async function start(){
+function openLesson(lesson){
 
-  showTyping();
+  activeLesson =
+    lesson;
 
+  home.classList.add(
+    "hidden"
+  );
 
-  try{
+  chat.classList.remove(
+    "hidden"
+  );
 
-    const d = await call(
-      "next_task",
+  bar.classList.remove(
+    "hidden"
+  );
+
+  back.classList.remove(
+    "hidden"
+  );
+
+  avatar.classList.add(
+    "hidden"
+  );
+
+  subtitle.textContent =
+    (
+      lesson.subject_name ||
+      lesson.subject_id ||
+      "Ders"
+    ) +
+    " • " +
+    typeLabel(
+      lesson.activity_type
+    );
+
+  chat.innerHTML = "";
+
+  msgs.length = 0;
+
+  const instruction =
+    "HAFTALIK PLAN DERSİ.\n" +
+    "Ders: " +
+    (
+      lesson.subject_name ||
+      lesson.subject_id
+    ) +
+    ".\n" +
+    "Hedef beceri: " +
+    lesson.skill_name +
+    " (" +
+    lesson.skill_id +
+    ").\n" +
+    "Etkinlik türü: " +
+    lesson.activity_type +
+    ".\n" +
+    "Gerekli kanıt: " +
+    lesson.required_evidence_type +
+    ".\n" +
+    "Plan maddesi: " +
+    lesson.plan_item_id +
+    ".\n" +
+    "Bu gerçek derstir. " +
+    "Yalnız bu hedefi ve gerekli önkoşul onarımını yürüt. " +
+    "Öğrencinin mevcut kanıtına göre teşhis et. " +
+    "Bildiğini gereksiz tekrar öğretme. " +
+    "İlk görevi ver ve öğrencinin cevabını bekle.";
+
+  msgs.push({
+    role:"user",
+    parts:[
       {
-        student_id:SID
+        text:instruction
       }
-    );
+    ]
+  });
 
-
-    hideTyping();
-
-
-    const prompt = d.task
-
-      ? "Bugünkü görev: " +
-        d.task.skill_name +
-        " (" +
-        d.task.skill_id +
-        "). Öğrenciye bu beceriyi çalıştır, soru sor, cevabını bekle."
-
-      : "Bugün yeni görev yok, tekrar yapalım.";
-
-
-    msgs.push({
-      role:"user",
-      parts:[
-        {text:prompt}
-      ]
-    });
-
-
-    await go(null);
-
-  }
-  catch(e){
-
-    hideTyping();
-
-    add(
-      "tutor",
-      "Başlangıç hatası: " + e.message
-    );
-  }
+  go(null);
 }
 
 
-sb.onclick = () => {
+back.onclick =
+  () => {
 
-  const t = inp.value.trim();
+    activeLesson = null;
 
-  if(!t){
-    return;
-  }
+    msgs.length = 0;
 
-  inp.value = "";
+    loadWeek();
+  };
 
-  go(t);
-};
+
+sb.onclick =
+  () => {
+
+    const text =
+      inp.value.trim();
+
+    if(!text){
+      return;
+    }
+
+    inp.value = "";
+
+    go(text);
+  };
 
 
 inp.addEventListener(
@@ -613,23 +1060,26 @@ inp.addEventListener(
   e => {
 
     if(e.key === "Enter"){
+
+      e.preventDefault();
+
       sb.click();
     }
-
   }
 );
 
 
-if("serviceWorker" in navigator){
+if(
+  "serviceWorker" in navigator
+){
 
   navigator.serviceWorker
     .register("sw.js")
     .catch(()=>{});
-
 }
 
 
-start();
+loadWeek();
 
 </script>
 
